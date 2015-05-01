@@ -70,8 +70,6 @@ def _get_data_config_path(location, config):
 
 
 def get_writable_path(location, config=None):
-    """Re-implementation of `QStandardPaths::writableLocation`
-    """
     # TODO: Make sure these fit Qt's implementation.
     if location in (Location.home, Location.runtime,):
         return pathlib.Path(os.path.expanduser('~'))
@@ -122,8 +120,6 @@ def get_writable_path(location, config=None):
 
 
 def get_standard_paths(location, config=None):
-    """Re-implementation of `QStandardPaths::standardLocations`
-    """
     paths = [get_writable_path(location)]
     if location in (Location.generic_data, Location.generic_config,):
         paths.append(_get_data_config_path(location, Config('', '')))

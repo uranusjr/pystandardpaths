@@ -27,114 +27,118 @@ class Location(enum.Enum):
     """
 
     desktop = 0
-    """Returns the user's desktop directory. This is a generic value.
+    """The user's desktop directory. This is a generic value.
     """
 
     documents = 1
-    """Returns the directory containing user document files. This is a generic
-    value. The returned path is never empty.
+    """The directory containing user document files. This is a generic value.
+    The returned path is never empty.
     """
 
     fonts = 2
-    """Returns the directory containing user's fonts. This is a generic value.
-    Note that installing fonts may require additional, platform-specific
-    operations.
+    """The directory containing user's fonts. This is a generic value. Note
+    that installing fonts may require additional, platform-specific operations.
     """
 
     applications = 3
-    """Returns the directory containing the user applications (either
-    executables, application bundles, or shortcuts to them). This is a generic
-    value. Note that installing applications may require additional,
-    platform-specific operations. Files, folders or shortcuts in this directory
-    are platform-specific.
+    """The directory containing the user applications (either executables,
+    application bundles, or shortcuts to them). This is a generic value. Note
+    that installing applications may require additional, platform-specific
+    operations. Files, folders or shortcuts in this directory are
+    platform-specific.
     """
 
     music = 4
-    """Returns the directory containing the user's music or other audio files.
-    This is a generic value. If no directory specific for music files exists, a
+    """The directory containing the user's music or other audio files. This is
+    a generic value. If no directory specific for music files exists, a
     sensible fallback for storing user documents is returned.
     """
 
     movies = 5
-    """Returns the directory containing the user's movies and videos. This is a
-    generic value. If no directory specific for movie files exists, a sensible
-    fallback for storing user documents is returned.
+    """The directory containing the user's movies and videos. This is a generic
+    value. If no directory specific for movie files exists, a sensible fallback
+    for storing user documents is returned.
     """
 
     pictures = 6
-    """Returns the directory containing the user's pictures or photos. This is
-    a generic value. If no directory specific for picture files exists, a
+    """The directory containing the user's pictures or photos. This is a
+    generic value. If no directory specific for picture files exists, a
     sensible fallback for storing user documents is returned.
     """
 
     temp = 7
-    """Returns a directory where temporary files can be stored (the same as
+    """A directory where temporary files can be stored (the same as
     :func:`tempfile.gettempdir`). The returned value might be
     application-specific, shared among other applications for this user, or
     even system-wide. The returned path is never empty.
     """
 
     home = 8
-    """Returns the user's home directory (the same as
-    `os.path.expanduser('~')`). On Unix systems, this is equal to the HOME
-    environment variable. This value might be generic or application-specific,
-    but the returned path is never empty.
+    """The user's home directory (the same as `os.path.expanduser('~')`). On
+    Unix systems, this is equal to the `HOME` environment variable. This value
+    might be generic or application-specific, but the returned path is never
+    empty.
     """
 
     data = 9
-    """Returns the same value as :attr:`.app_local_data`. This enumeration
-    value is deprecated. Using :attr:`.app_data` is preferable since on
-    Windows, the roaming path is recommended.
+    """The same value as :attr:`.app_local_data`. This enumeration value is
+    deprecated. Using :attr:`.app_data` is preferable since on Windows, the
+    roaming path is recommended.
     """
+
     cache = 10
+    """A directory location where user-specific non-essential (cached) data
+    should be written. This is an application-specific directory. The returned
+    path is never empty.
+    """
+
     generic_data = 11
-    """Returns a directory location where persistent data shared across
-    applications can be stored. This is a generic value. The returned path is
-    never empty.
+    """A directory location where persistent data shared across applications
+    can be stored. This is a generic value. The returned path is never empty.
     """
 
     runtime = 12
-    """Returns a directory location where runtime communication files should be
+    """A directory location where runtime communication files should be
     written, like Unix local sockets. This is a generic value. The returned
     path may be empty on some systems.
     """
 
     config = 13
-    """Returns a directory location where user-specific configuration files
-    should be written. This may be either a generic value or
-    application-specific, and the returned path is never empty.
+    """A directory location where user-specific configuration files should be
+    written. This may be either a generic value or application-specific, and
+    the returned path is never empty.
     """
 
     download = 14
-    """Returns a directory for user's downloaded files. This is a generic
-    value. If no directory specific for downloads exists, a sensible fallback
-    for storing user documents is returned.
+    """A directory for user's downloaded files. This is a generic value. If no
+    directory specific for downloads exists, a sensible fallback for storing
+    user documents is returned.
     """
 
     generic_cache = 15
-    """Returns a directory location where user-specific non-essential (cached)
-    data, shared across applications, should be written. This is a generic
-    value. Note that the returned path may be empty if the system has no
-    concept of shared cache.
+    """A directory location where user-specific non-essential (cached) data,
+    shared across applications, should be written. This is a generic value.
+    Note that the returned path may be empty if the system has no concept of
+    shared cache.
     """
 
     generic_config = 16
-    """Returns a directory location where user-specific configuration files
-    shared between multiple applications should be written. This is a generic
-    value and the returned path is never empty.
+    """A directory location where user-specific configuration files shared
+    between multiple applications should be written. This is a generic value
+    and the returned path is never empty.
     """
 
     app_data = 17
-    """Returns a directory location where persistent application data can be
-    stored. This is an application-specific directory. To obtain a path to
-    store data to be shared with other applications, use :attr:`.generic_data`.
-    The returned path is never empty. On the Windows operating system, this
-    returns the roaming path.
+    """A directory location where persistent application data can be stored.
+    This is an application-specific directory. To obtain a path to store data
+    to be shared with other applications, use :attr:`.generic_data`. The
+    returned path is never empty. On the Windows operating system, this returns
+    the roaming path.
     """
 
     app_local_data = data
-    """Returns the local settings path on the Windows operating system. On all
-    other platforms, it returns the same value as :attr:`.app_data`.
+    """The local settings path on the Windows operating system. On all other
+    platforms, it returns the same value as :attr:`.app_data`.
     """
 
 
@@ -176,8 +180,6 @@ def get_config():
 
 
 def _append_org_and_app(path, config):
-    """Re-implementation of `appendOrganizationAndApp`.
-    """
     if config is None:
         config = get_config()
     if config.organization_name:
@@ -188,6 +190,8 @@ def _append_org_and_app(path, config):
 
 
 def _get_implementation():
+    """Get implementation module based on current OS.
+    """
     module_name = {
         'Darwin': '..osx',
         'Windows': '..windows',

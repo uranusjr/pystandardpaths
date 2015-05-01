@@ -36,8 +36,6 @@ def _get_path(environ_name, default):
 
 
 def _get_xdg_data_dirs():
-    """Re-implementation of `xdgDataDirs`
-    """
     xdg_data_dirs = os.getenv('XDG_DATA_DIRS')
     if not xdg_data_dirs:
         paths = [pathlib.Path('/usr/local/share'), pathlib.Path('usr/share')]
@@ -50,13 +48,12 @@ def _get_xdg_data_dirs():
 
 
 def get_writable_path(location, config=None):
-    """Re-implementation of `QStandardPaths::writableLocation`
-    """
     # TODO: Make sure these fit Qt's implementation.
     if location == Location.home:
         return pathlib.Path(os.path.expanduser('~'))
     if location == Location.temp:
         return pathlib.Path(tempfile.gettempdir())
+
     if location == Location.generic_cache:
         return _get_path('XDG_CACHE_HOME', '~/.cache')
     if location == Location.cache:
@@ -140,8 +137,6 @@ def get_writable_path(location, config=None):
 
 
 def get_standard_paths(location, config=None):
-    """Re-implementation of `QStandardPaths::standardLocations`
-    """
     paths = [get_writable_path(location, config)]
     if location in (Location.config, Location.generic_config,):
         return paths + [

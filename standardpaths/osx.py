@@ -56,8 +56,6 @@ NSUserDomainMask = 1
 
 
 def _get_path(location, domain, config):
-    """Re-implementation of `macLocation`.
-    """
     if location == Location.download:
         _load('Foundation')     # Needed by Rubicon.
         manager = ObjCClass('NSFileManager').defaultManager()
@@ -116,8 +114,6 @@ def _get_path(location, domain, config):
 
 
 def get_writable_path(location, config=None):
-    """Re-implementation of `QStandardPaths::writableLocation`
-    """
     # TODO: Make sure these fit Qt's implementation.
     if location == Location.home:
         return pathlib.Path(os.path.expanduser('~'))
@@ -136,8 +132,6 @@ def get_writable_path(location, config=None):
 
 
 def get_standard_paths(location, config=None):
-    """Re-implementation of `QStandardPaths::standardLocations`
-    """
     paths = [get_writable_path(location)]
     if location in (
             Location.generic_data, Location.app_data, Location.app_local_data,

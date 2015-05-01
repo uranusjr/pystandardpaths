@@ -23,8 +23,8 @@ from .base import (
 
 
 def get_writable_path(location, config=None):
-    """Returns the directory where files of type should be written to, or an
-    empty string if the location cannot be determined.
+    """Get the directory where files of type should be written to, or an empty
+    string if the location cannot be determined.
 
     :rtype: :class:`pathlib.Path`
 
@@ -40,7 +40,7 @@ def get_writable_path(location, config=None):
 
 
 def get_standard_paths(location, config=None):
-    """Returns all the directories where files of type belong.
+    """Get all the directories where files of type belong.
 
     The list of directories is sorted from high to low priority, starting with
     :func:`.get_writable_path` if it can be determined. This list is empty if
