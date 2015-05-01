@@ -7,7 +7,7 @@ import platform
 
 
 class Location(enum.Enum):
-    """describes the different locations that can be queried using functions
+    """Describe the different locations that can be queried using functions
     such as :func:`.get_writable_path` and :func:`.get_standard_paths`.
 
     Some of the values in this enum represent a user configuration. Such enum
