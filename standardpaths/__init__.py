@@ -26,6 +26,8 @@ def get_writable_path(location, config=None):
     """Returns the directory where files of type should be written to, or an
     empty string if the location cannot be determined.
 
+    :rtype: :class:`pathlib.Path`
+
     .. note::
         The storage location returned can be a directory that does not exist;
         i.e., it may need to be created by the system or the user.
@@ -43,6 +45,8 @@ def get_standard_paths(location, config=None):
     The list of directories is sorted from high to low priority, starting with
     :func:`.get_writable_path` if it can be determined. This list is empty if
     no locations for type are defined.
+
+    :rtype: :class:`pathlib.Path`
 
     .. seealso::
         :func:`.get_writable_path`.
