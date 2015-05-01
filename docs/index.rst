@@ -11,7 +11,7 @@ The current implementation matches that of Qt 5.4.1. This matching-Qt-version in
 Installation
 ============
 
-PyStandardPaths can be obstained with `pip`::
+PyStandardPaths can be installed with `pip`::
 
     pip install pystandardpaths
 
