@@ -17,7 +17,7 @@ PyStandardPaths can be installed with `pip`::
 
 Currently OS X, Windows, and Unix systems conforming to `freedesktop.org`_ specifications are supported.
 
-Implementations on OS X and Windows are based on :mod:`ctypes`, and dependencies vary between operating systems.
+Implementations on OS X and Windows are based on :mod:`ctypes`, and dependencies vary between operating systems and Python versions.
 
 
 Contents

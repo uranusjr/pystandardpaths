@@ -141,6 +141,14 @@ class Location(enum.Enum):
     platforms, it returns the same value as :attr:`.app_data`.
     """
 
+    # Our own enum values. We use string values so the values will never
+    # collide with Qt's.
+
+    log = 'log'
+    """A directory location where user-specific log files should be written.
+    This is an application-specific value. The returned path is never empty.
+    """
+
 
 class LocationError(OSError):
     """Exception class raised to indicate an error during path resolution.

@@ -66,6 +66,14 @@ def get_writable_path(location, config=None):
         return _append_org_and_app(path, config)
     if location in (Location.config, Location.generic_config,):
         return _get_path('XDG_CONFIG_HOME', '~/.config')
+    if location == Location.log:
+        # Free Desktop does not provide any suggestions on where log files
+        # should be placed, and there is no consensus in the community. Debian
+        # has a proposal for this, but nobody really does it. I'm personally in
+        # the "log files are not essential" camp, and agrees that it belongs
+        # better with cache than data.
+        # http://stackoverflow.com/a/27965014/1376863
+        return get_writable_path(Location.cache) / 'log'
     if location == Location.runtime:
         username = pwd.getpwuid(os.geteuid()).pw_name
         try:
@@ -91,16 +99,10 @@ def get_writable_path(location, config=None):
             path.chmod(stat.S_IRWXU)
         return path
 
+    if location == Location.applications:
+        return get_writable_path(Location.generic_data) / 'applications'
+
     # http://www.freedesktop.org/wiki/Software/xdg-user-dirs
-    user_dirs = get_writable_path(Location.config) / 'user-dirs.dirs'
-    lines = {}
-    with user_dirs.open() as f:
-        xdg_dir_pat = re.compile(r'^XDG_(.*)_DIR=(.*)\s*$')
-        for line in f:
-            match = xdg_dir_pat.match(line)
-            if not match:
-                continue
-            lines[match.group(1)] = match.group(2).strip('"')
     try:
         key = {
             Location.desktop: 'DESKTOP',
@@ -110,28 +112,32 @@ def get_writable_path(location, config=None):
             Location.movies: 'VIDEOS',
             Location.download: 'DOWNLOAD',
         }[location]
-        value = lines[key]
-        assert value
-    except (AssertionError, KeyError):
-        pass
-    else:
-        return pathlib.Path(os.path.expandvars(value))
-
-    names = {
-        Location.desktop: 'Desktop',
-        Location.documents: 'Documents',
-        Location.pictures: 'Pictures',
-        Location.movies: 'Videos',
-        Location.download: 'Downloads',
-        Location.fonts: '.fonts',
-    }
-    try:
-        return get_writable_path(Location.home) / names[location]
     except KeyError:
         pass
+    else:
+        value = None
+        user_dirs = get_writable_path(Location.config) / 'user-dirs.dirs'
+        with user_dirs.open() as f:
+            xdg_dir_pat = re.compile(r'^XDG_(.*)_DIR=(.*)\s*$')
+            for line in f:
+                match = xdg_dir_pat.match(line)
+                if match and match.group(1) == key:
+                    value = match.group(2).strip('"')
+                    if value:
+                        return pathlib.Path(os.path.expandvars(value))
 
-    if location == Location.applications:
-        return get_writable_path(Location.generic_data) / 'applications'
+    try:
+        return get_writable_path(Location.home) / {
+            Location.desktop: 'Desktop',
+            Location.documents: 'Documents',
+            Location.pictures: 'Pictures',
+            Location.music: 'Music',
+            Location.movies: 'Videos',
+            Location.download: 'Downloads',
+            Location.fonts: '.fonts',
+        }[location]
+    except KeyError:
+        pass
 
     return pathlib.Path()
 

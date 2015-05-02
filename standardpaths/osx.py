@@ -56,20 +56,6 @@ NSUserDomainMask = 1
 
 
 def _get_path(location, domain, config):
-    if location == Location.download:
-        _load('Foundation')     # Needed by Rubicon.
-        manager = ObjCClass('NSFileManager').defaultManager()
-        error = ObjCClass('NSError').alloc().init()
-        url = manager.URLForDirectory_inDomain_appropriateForURL_create_error_(
-            NSDownloadsDirectory, NSUserDomainMask, None, False,
-            ctypes.byref(error.__dict__['ptr']),
-        )
-        if not url:
-            raise LocationError('Could not resolve {}: {}'.format(
-                location.name, error.localizedDescription(),
-            ))
-        return pathlib.Path(url.path)
-
     CoreServices = _load('CoreServices')
     folder_type = {
         Location.config: kPreferencesFolderType,
@@ -119,6 +105,24 @@ def get_writable_path(location, config=None):
         return pathlib.Path(os.path.expanduser('~'))
     if location == Location.temp:
         return pathlib.Path(tempfile.gettempdir())
+
+    if location == Location.download:
+        _load('Foundation')     # Needed by Rubicon.
+        manager = ObjCClass('NSFileManager').defaultManager()
+        error = ObjCClass('NSError').alloc().init()
+        url = manager.URLForDirectory_inDomain_appropriateForURL_create_error_(
+            NSDownloadsDirectory, NSUserDomainMask, None, False,
+            ctypes.byref(error.__dict__['ptr']),
+        )
+        if not url:
+            raise LocationError('Could not resolve {}: {}'.format(
+                location.name, error.localizedDescription(),
+            ))
+        return pathlib.Path(url.path)
+
+    if location == Location.log:
+        path = pathlib.Path(os.path.expanduser('~/Library/Logs'))
+        return _append_org_and_app(path, config)
 
     domain = {
         Location.generic_data: kUserDomain,

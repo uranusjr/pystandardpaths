@@ -80,6 +80,13 @@ def get_writable_path(location, config=None):
         return get_writable_path(Location.generic_data) / 'cache'
     if location == Location.cache:
         return get_writable_path(Location.app_local_data) / 'cache'
+    if location == Location.log:
+        # There seems to be no consensus in the Windows world on where logs
+        # should go, and MSDN offers no help. In practice this seems to be
+        # used by many, so I'm going with it.
+        # http://stackoverflow.com/a/1573094/1376863
+        # https://github.com/ActiveState/appdirs/blob/master/appdirs.py#L338
+        return get_writable_path(Location.app_local_data) / 'log'
 
     if location == Location.download:
         try:
