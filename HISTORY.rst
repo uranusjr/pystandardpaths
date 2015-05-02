@@ -7,3 +7,8 @@ History
 ---------------------
 
 * First release on PyPI.
+
+0.2.0 (2015-05-02)
+---------------------
+
+* Add log location support.
