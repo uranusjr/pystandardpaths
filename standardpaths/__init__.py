@@ -7,7 +7,7 @@ __all__ = [
     'configure', 'get_config', 'get_writable_path', 'get_standard_paths',
 ]
 
-VERSION = (0, 1, 0)
+VERSION = (0, 2, 0)
 QTVERSION = (5, 4, 1)
 
 __author__ = 'Tzu-ping Chung'
