@@ -39,9 +39,9 @@ Advanced Use
 
 Both :func:`.get_writable_path` and :func:`.get_standard_paths` take an optional second argument `config` that overrides the global configuration. Useful for accessing directories owned by *another* application::
 
-    >>> config = standardpaths.Config(organization_name='Mosky')
+    >>> config = standardpaths.Config(organization_name='M05', application_name='<Y')
     >>> print(standardpaths.get_writable_path('cache', config=config))
-    PosixPath('/home/uranusjr/.cache/Mosky')
+    PosixPath('/home/uranusjr/.cache/M05/<Y')
 
 Instead of using strings, you can also use a :class:`.Location` :mod:`enum` value as the first argument::
 
