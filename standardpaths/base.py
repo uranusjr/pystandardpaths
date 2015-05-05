@@ -159,7 +159,7 @@ class Config(object):
     """Configuration class that holds application information.
 
     .. seealso::
-        :func:`.configure` and :func:`get_config`.
+        :func:`.configure` and :func:`.get_config`.
     """
     def __init__(self, application_name='', organization_name=''):
         self.application_name = application_name
@@ -173,7 +173,7 @@ def configure(application_name='', organization_name=''):
     """Configure default application information used by PyStandardPaths.
 
     .. seealso::
-        :func:`get_config` and :class:`.Config`.
+        :func:`.get_config` and :class:`.Config`.
     """
     global _config
     _config = Config(application_name, organization_name)
