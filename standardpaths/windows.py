@@ -46,6 +46,7 @@ CSIDL_MYPICTURES        = 0x0027
 
 
 def _get_path(folder_id):
+    # TODO: Make this more bullet-proof.
     string = ctypes.create_unicode_buffer(1024)
     r = ctypes.windll.shell32.SHGetFolderPathW(
         None, folder_id, ctypes.c_int(), 0, string,
@@ -89,6 +90,11 @@ def get_writable_path(location, config=None):
         return get_writable_path(Location.app_local_data) / 'log'
 
     if location == Location.download:
+        # On newer versions of Windows, this is the preferred way to get the
+        # "Download" folder, but the API is not always available (on Windows
+        # XP, for example). The new API works for other directories as well,
+        # but is a bit cumbersome to use, so we only use it when necessary.
+        # Maybe we should adapt this API for other paths in the future...?
         try:
             SHGetKnownFolderPath = ctypes.windll.shell32.SHGetKnownFolderPath
         except AttributeError:
@@ -102,7 +108,7 @@ def get_writable_path(location, config=None):
             )
             if not r:
                 return pathlib.Path(string.value)
-            # If this fails, fallback.
+            # If this fails, fallback to the following method.
 
     if location in (Location.generic_data, Location.generic_config,):
         return _get_data_config_path(location, Config('', ''))
@@ -123,14 +129,21 @@ def get_writable_path(location, config=None):
     try:
         return _get_path(folder_id)
     except LocationError as e:
-        LocationError('Could not resolve {}: {}'.format(location.name, str(e)))
+        pass
+
+    raise LocationError(
+        'Could not resolve {}: {}'.format(location.name, str(e))
+    )
 
 
 def get_standard_paths(location, config=None):
-    paths = [get_writable_path(location)]
+    try:
+        paths = [get_writable_path(location, config)]
+    except LocationError:
+        paths = []
     if location in (Location.generic_data, Location.generic_config,):
         paths.append(_get_data_config_path(location, Config('', '')))
-    if location in (
+    elif location in (
             Location.app_local_data, Location.app_data, Location.config,):
         paths.append(_get_data_config_path(location, config))
 

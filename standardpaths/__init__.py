@@ -7,7 +7,7 @@ __all__ = [
     'configure', 'get_config', 'get_writable_path', 'get_standard_paths',
 ]
 
-VERSION = (0, 2, 0)
+VERSION = (0, 3, 0)
 QTVERSION = (5, 4, 1)
 
 __author__ = 'Tzu-ping Chung'
@@ -23,8 +23,8 @@ from .base import (
 
 
 def get_writable_path(location, config=None):
-    """Get the directory where files of type should be written to, or an empty
-    string if the location cannot be determined.
+    """Get the directory where files of type should be written to. A
+    :class:`.LocationError` is raised if the location cannot be determined.
 
     :rtype: :class:`pathlib.Path`
 

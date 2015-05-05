@@ -94,9 +94,14 @@ def get_writable_path(location, config=None):
                     path=path.as_posix(), real=path.owner(), expected=username,
                 ),
             )
-        permissions = path.stat().st_mode & 0o777
-        if permissions != stat.S_IRWXU:
-            path.chmod(stat.S_IRWXU)
+        if (path.stat().st_mode & 0o777) != stat.S_IRWXU:
+            try:
+                path.chmod(stat.S_IRWXU)
+            except Exception as e:
+                raise LocationError(
+                    "Could not set permisson on runtime directory '{path}': "
+                    "{error}".format(path=path.as_posix(), error=str(e)),
+                )
         return path
 
     if location == Location.applications:
@@ -139,11 +144,14 @@ def get_writable_path(location, config=None):
     except KeyError:
         pass
 
-    return pathlib.Path()
+    raise LocationError('Could not resolve {}'.format(location.name))
 
 
 def get_standard_paths(location, config=None):
-    paths = [get_writable_path(location, config)]
+    try:
+        paths = [get_writable_path(location, config)]
+    except LocationError:
+        paths = []
     if location in (Location.config, Location.generic_config,):
         return paths + [
             pathlib.Path(ps)

@@ -136,7 +136,10 @@ def get_writable_path(location, config=None):
 
 
 def get_standard_paths(location, config=None):
-    paths = [get_writable_path(location)]
+    try:
+        paths = [get_writable_path(location, config)]
+    except LocationError:
+        paths = []
     if location in (
             Location.generic_data, Location.app_data, Location.app_local_data,
             Location.generic_cache, Location.cache,):
