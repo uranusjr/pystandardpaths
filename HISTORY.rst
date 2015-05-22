@@ -13,3 +13,9 @@ History
 ---------------------
 
 * Add log location support.
+
+0.3.0 (2015-05-05)
+---------------------
+
+* Always raise LocationError on resolution error.
+* Packaging problem fixed.
