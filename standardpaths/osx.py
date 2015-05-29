@@ -109,15 +109,19 @@ def get_writable_path(location, config=None):
     if location == Location.download:
         _load('Foundation')     # Needed by Rubicon.
         manager = ObjCClass('NSFileManager').defaultManager()
-        error = ObjCClass('NSError').alloc().init()
+        err_ptr = ctypes.c_void_p(0)
         url = manager.URLForDirectory_inDomain_appropriateForURL_create_error_(
             NSDownloadsDirectory, NSUserDomainMask, None, False,
-            ctypes.byref(error.__dict__['ptr']),
+            ctypes.byref(err_ptr),
         )
         if not url:
-            raise LocationError('Could not resolve {}: {}'.format(
-                location.name, error.localizedDescription(),
-            ))
+            err_msg = 'Could not resolve {}'.format(location.name)
+            if err_ptr:
+                error = ObjCClass('NSError')(err_ptr)
+                description = error.localizedDescription
+                if description:
+                    err_msg = '{}: {}'.format(err_msg, description)
+            raise LocationError(err_msg)
         return pathlib.Path(url.path)
 
     if location == Location.log:
