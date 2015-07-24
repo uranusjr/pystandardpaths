@@ -204,4 +204,4 @@ def _get_implementation():
         'Darwin': '..osx',
         'Windows': '..windows',
     }.get(platform.system(), '..unix')
-    return importlib.import_module(module_name, package=__loader__.name)
+    return importlib.import_module(module_name, package=__name__)
