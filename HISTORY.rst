@@ -9,13 +9,21 @@ History
 
 * First release on PyPI.
 
+
 0.2.0 (2015-05-02)
 ---------------------
 
 * Add log location support.
+
 
 0.3.0 (2015-05-05)
 ---------------------
 
 * Always raise LocationError on resolution error.
 * Packaging problem fixed.
+
+
+0.3.1 (2015-07-24)
+---------------------
+
+* Fix platform-dependent loading on Python 2.
