@@ -1,20 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import importlib
 import os
-import platform
 
 from setuptools import find_packages, setup
-
-
-def import_or_fallback(module_name, fallback=None):
-    if fallback is None:
-        fallback = module_name
-    try:
-        importlib.import_module(module_name)
-    except ImportError:
-        requirements.add(fallback)
 
 
 def get_version():
@@ -31,22 +20,17 @@ def get_version():
     return '.'.join([str(c) for c in eval(code)])
 
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+with open('README.rst') as f:
+    readme = f.read()
+with open('HISTORY.rst') as f:
+    history = f.read().replace('.. :changelog:', '')
 
 
-requirements = set()
-
-# Add version-specific dependencies.
-import_or_fallback('pathlib')
-import_or_fallback('enum', fallback='enum34')
-
-# Add platform-specific dependencies.
-extra_requirements = {
-    'Darwin': ('rubicon-objc',),
-}
-requirements.update(extra_requirements.get(platform.system(), ()))
-
+requirements = [
+    'pathlib2; python_version < "3.4"',
+    'enum34; python_version < "3.4"',
+    'rubicon-objc; sys_platform == "darwin"',
+]
 
 test_requirements = [
     line for line in open('requirements.txt').read().split() if line
@@ -66,7 +50,7 @@ setup(
     url='https://github.com/uranusjr/pystandardpaths',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=list(requirements),
+    install_requires=requirements,
     license='BSD',
     zip_safe=False,
     keywords='qstandardpaths',
