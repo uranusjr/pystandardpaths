@@ -7,7 +7,12 @@ __all__ = [
     'configure', 'get_config', 'get_writable_path', 'get_standard_paths',
 ]
 
-VERSION = (0, 3, 1)
+from .base import (
+    Config, Location, LocationError, configure, get_config,
+    _get_implementation,
+)
+
+VERSION = (0, 3, 2)
 QTVERSION = (5, 4, 1)
 
 __author__ = 'Tzu-ping Chung'
@@ -15,11 +20,6 @@ __email__ = 'uranusjr@gmail.com'
 __version__ = '.'.join(str(i) for i in VERSION)
 
 __qtversion__ = '.'.join(str(i) for i in QTVERSION)
-
-from .base import (
-    Config, Location, LocationError, configure, get_config,
-    _get_implementation,
-)
 
 
 def get_writable_path(location, config=None):

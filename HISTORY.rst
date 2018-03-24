@@ -4,16 +4,16 @@
 History
 =======
 
-0.1.0 (2015-05-02)
+0.3.2 (2018-03-24)
 ---------------------
 
-* First release on PyPI.
+* Better compatibility to modern pip versions.
 
 
-0.2.0 (2015-05-02)
+0.3.1 (2015-07-24)
 ---------------------
 
-* Add log location support.
+* Fix platform-dependent loading on Python 2.
 
 
 0.3.0 (2015-05-05)
@@ -23,7 +23,13 @@ History
 * Packaging problem fixed.
 
 
-0.3.1 (2015-07-24)
+0.2.0 (2015-05-02)
 ---------------------
 
-* Fix platform-dependent loading on Python 2.
+* Add log location support.
+
+
+0.1.0 (2015-05-02)
+---------------------
+
+* First release on PyPI.
