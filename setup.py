@@ -66,7 +66,7 @@ setup(
     url='https://github.com/uranusjr/pystandardpaths',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=list(requirements),
     license='BSD',
     zip_safe=False,
     keywords='qstandardpaths',
