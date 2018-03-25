@@ -2,8 +2,9 @@
 PyStandardPaths
 ===============================
 
-.. image:: https://badge.fury.io/py/pystandardpaths.svg
-    :target: http://badge.fury.io/py/pystandardpaths
+.. image:: https://img.shields.io/pypi/v/pystandardpaths.svg
+    :target: https://pypi.org/project/PyStandardPaths/
+    :alt: PyPI Version
 
 .. image:: https://readthedocs.org/projects/pystandardpaths/badge/?version=latest
     :target: https://readthedocs.org/projects/pystandardpaths/?badge=latest
